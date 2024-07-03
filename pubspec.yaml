@@ -62,7 +62,7 @@ dependencies:
   emoji_picker_flutter: ^1.6.0
   giphy_get: ^3.2.0
   permission_handler: ^11.0.1
-  agora_rtc_engine: ^6.2.3
+  agora_rtc_engine: ^6.3.2
   flutter_smart_dialog: ^4.8.2
   audioplayers: ^5.0.0
   in_app_purchase: ^3.1.7
