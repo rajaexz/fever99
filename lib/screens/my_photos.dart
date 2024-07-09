@@ -48,28 +48,31 @@ class _MyPhotosPageState extends State<MyPhotosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          mini: true,
-          heroTag: 'myPhotosUpdate',
-          child: const Icon(CupertinoIcons.cloud_upload),
-          onPressed: () {
-            pickAndUploadFile(context, 'upload-photos', allowMultiple: true,
-                onStart: (imageSelected) {
-              setState(() {
-                uploadedImageName = imageSelected;
-                isLoading = true;
+      floatingActionButton:
+        Container(
+        margin: const EdgeInsets.only(bottom: 60),
+        child: FloatingActionButton(
+            mini: true,
+            heroTag: 'myPhotosUpdate',
+            child: const Icon(CupertinoIcons.cloud_upload),
+            onPressed: () {
+              pickAndUploadFile(context, 'upload-photos', allowMultiple: true,
+                  onStart: (imageSelected) {
+                setState(() {
+                  uploadedImageName = imageSelected;
+                  isLoading = true;
+                });
+              }, onSuccess: (value, data) {
+                setState(() {
+                  isLoading = false;
+                  uploadedImageName = data['data']['image_url'];
+                });
+              }, onError: (error) {
+                setState(() {
+                  isLoading = false;
+                });
               });
-            }, onSuccess: (value, data) {
-              setState(() {
-                isLoading = false;
-                uploadedImageName = data['data']['image_url'];
-              });
-            }, onError: (error) {
-              setState(() {
-                isLoading = false;
-              });
-            });
-          }),
+            })),
       body: (photosData.isNotEmpty
           ? LayoutBuilder(builder: (context, constraints) {
               return GridView.builder(

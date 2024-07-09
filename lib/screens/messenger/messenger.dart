@@ -65,102 +65,108 @@ class _MessengerPageState extends State<MessengerPage> {
                       Map<String, dynamic> element = messengerUsers[index];
                       return Column(
                         children: [
-                          InkWell(
-                            onLongPress: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        const Text(
-                                          'Are you sure you want to delete this chat?',
-                                          style: TextStyle(fontSize: 18.0),
-                                        ),
-                                        SizedBox(height: 20.0),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            // Add your delete action here
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Delete'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            onTap: (() {
-                              return navigatePage(
-                                  context,
-                                  MessengerChatListPage(
-                                    sourceElement: element,
-                                  ));
-                            }),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: ListTile(
-                                title: Text(
-                                  element['user_full_name'],
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 6.0),
-                                  child: Text(
-                                    element['is_online'] == 1
-                                        ? 'Online'
-                                        : (element['is_online'] == 2
-                                            ? 'Idle'
-                                            : (element['is_online'] == 3
-                                                ? 'Offline'
-                                                : '')),
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
-                                ),
-                                leading: Stack(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage:
-                                          appCachedNetworkImageProvider(
-                                              imageUrl:
-                                                  element['profile_picture']
-                                                      .toString()),
-                                      radius: 30,
-                                    ),
-                                    Positioned(
-                                      top: 2,
-                                      child: Container(
-                                        width: 10,
-                                        height: 10,
-                                        // ignore: prefer_const_constructors
-                                        decoration: BoxDecoration(
-                                          color: ((element['is_online'] == 1)
-                                              ? Colors.green
-                                              : (element['is_online'] == 2
-                                                  ? Colors.orange
-                                                  : Colors.red)),
-                                          shape: BoxShape.circle,
-                                        ),
+                          Container(
+                            decoration: Utils.mainContainerOnlyBorder,
+                            child: InkWell(
+                              onLongPress: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          const Text(
+                                            'Are you sure you want to delete this chat?',
+                                            style: TextStyle(fontSize: 18.0),
+                                          ),
+                                          SizedBox(height: 20.0),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              // Add your delete action here
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Delete'),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                                trailing: Text(
-                                  element['last_seen_at_time_ago_format'],
-                                  // info[index]['time'].toString(),
-                                  style: const TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 13,
+                                    );
+                                  },
+                                );
+                              },
+                              onTap: (() {
+                                return navigatePage(
+                                    context,
+                                    MessengerChatListPage(
+                                      sourceElement: element,
+                                    ));
+                              }),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: ListTile(
+                                  title: Text(
+                                    element['user_full_name'],
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 6.0),
+                                    child: Text(
+                                      element['is_online'] == 1
+                                          ? 'Online'
+                                          : (element['is_online'] == 2
+                                              ? 'Idle'
+                                              : (element['is_online'] == 3
+                                                  ? 'Offline'
+                                                  : '')),
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ),
+                                  leading: Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage:
+                                            appCachedNetworkImageProvider(
+                                                imageUrl:
+                                                    element['profile_picture']
+                                                        .toString()),
+                                        radius: 30,
+                                      ),
+                                      Positioned(
+                                        top: 2,
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          // ignore: prefer_const_constructors
+                                          decoration: BoxDecoration(
+                                            color: ((element['is_online'] == 1)
+                                                ? Colors.green
+                                                : (element['is_online'] == 2
+                                                    ? Colors.orange
+                                                    : Colors.red)),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Text(
+                                    element['last_seen_at_time_ago_format'],
+                                    // info[index]['time'].toString(),
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 10,
+                          )
                         ],
                       );
                     },

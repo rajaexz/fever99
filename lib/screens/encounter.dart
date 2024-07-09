@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_card_swiper/models/photo_card.dart';
@@ -58,26 +60,59 @@ class EncounterPageState extends State<EncounterPage> {
                 cardId: encounteredUserData['_uid'],
                 description: Column(
                   children: [
-                    Text(
-                      encounteredUserData['userFullName'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 21,
-                          color: app_theme.primary),
+                    Column(
+                      children: [
+                        Text(
+                          encounteredUserData['userFullName'],
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 21,
+                              color: app_theme.primary),
+                        ),
+                        Text(
+                          encounteredUserData['detailString'] ?? '',
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors
+                                  .white), // Optional: Change text color for better visibility
+                        )
+                      ],
                     ),
                     const Divider(
                       height: 10,
+                      color: app_theme.primary,
                     ),
-                    Text(encounteredUserData['detailString'] ?? '',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: app_theme.white)),
-                    Text(encounteredUserData['countryName'] ?? '',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: app_theme.error)),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white
+                            .withOpacity(0.1), // Transparent white color
+                      ),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                              sigmaX: 10, sigmaY: 10), // Blur effect
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              encounteredUserData['countryName'] ?? '',
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors
+                                      .white), // Optional: Change text color for better visibility
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    )
                   ],
                 ),
                 itemWidget: Stack(
@@ -145,7 +180,7 @@ class EncounterPageState extends State<EncounterPage> {
               ? const BePremiumAlertInfo()
               : (encounteredUserData.isNotEmpty
                   ? PhotoCardSwiper(
-                      cardBgColor: const Color.fromARGB(100, 0, 0, 0),
+                      cardBgColor: app_theme.primary3,
                       photos: encounterCards,
                       showLoading: true,
                       hideCenterButton: false,

@@ -5,6 +5,8 @@ import '../common/services/utils.dart';
 import '../common/widgets/common.dart';
 import 'premium.dart';
 
+import '../support/app_theme.dart' as app_theme;
+
 class ProfileImageView extends StatelessWidget {
   const ProfileImageView(
       {super.key, required this.imageUrl, this.actions, this.title});
@@ -53,39 +55,45 @@ class InfoItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return value == null
         ? Container()
-        : Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                  child: Text(
-                    label ?? '',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
-                      fontSize: 14,
+        : Container(
+            decoration: Utils.mainContainerOnlyBorder,
+            margin: EdgeInsets.only(bottom: 5),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                    child: Text(
+                      label ?? '',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColorLight,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Divider(
-                thickness: 0.1,
-                height: 28,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 20),
-                  child: Text(
-                    value ?? '',
-                    style: const TextStyle(
-                      fontSize: 18,
+                const Divider(
+                  thickness: 0.1,
+                  color: app_theme.primary,
+                  height: 28,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 20),
+                    child: Text(
+                      value ?? '',
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 10))
-            ],
+                const Padding(padding: EdgeInsets.only(bottom: 10))
+              ],
+            ),
           );
   }
 }

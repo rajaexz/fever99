@@ -4,7 +4,33 @@ import 'package:flutter/material.dart';
 import '../../support/app_theme.dart' as app_theme;
 import '../../support/app_config.dart' as app_config;
 
-class Utils {}
+class Utils {
+  static BoxDecoration mainContainerBorder = BoxDecoration(
+    color: app_theme.primary,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(color: app_theme.primary, width: 5),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  );
+  static BoxDecoration mainContainerOnlyBorder = BoxDecoration(
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(color: app_theme.primary, width: 5),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  );
+}
 
 /// get configuration settings from app_config file
 dynamic configItem(String itemRequested, {fallbackValue}) {
@@ -98,7 +124,7 @@ void showToastMessage(
     ),
     backgroundColor: type == 'success'
         ? app_theme.success
-        : ((type == 'error') ? app_theme.error : app_theme.black),
+        : ((type == 'error') ? app_theme.secondary : app_theme.black),
   );
   // Find the ScaffoldMessenger in the widget tree
   // and use it to show a SnackBar.

@@ -209,13 +209,16 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       key: scaffoldKey,
       floatingActionButton: Visibility(
         visible: isOwnProfile,
-        child: FloatingActionButton(
-          mini: true,
-          heroTag: 'myProfileUpdate',
-          child: const Icon(Icons.edit),
-          onPressed: () {
-            navigatePage(context, const ProfileUpdatePage());
-          },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 60),
+          child: FloatingActionButton(
+            mini: true,
+            heroTag: 'myProfileUpdate',
+            child: const Icon(Icons.edit),
+            onPressed: () {
+              navigatePage(context, const ProfileUpdatePage());
+            },
+          ),
         ),
       ),
       appBar: AppBar(
@@ -449,41 +452,45 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                           child: Stack(
                             alignment: Alignment.bottomLeft,
                             children: [
-                              GestureDetector(
-                                onTap: () => navigatePage(
-                                  context,
-                                  ProfileImageView(
-                                    title: Text(localUserProfileItem[
-                                            "fullName"] ??
-                                        localUserProfileItem["userFullName"]),
-                                    imageUrl: localUserProfileItem[
-                                            'coverImage'] ??
-                                        localUserProfileItem['userCoverUrl'],
-                                    actions: !isOwnProfile
-                                        ? []
-                                        : [
-                                            IconButton(
-                                                icon: const Icon(Icons.edit),
-                                                tooltip: 'Upload New Photos',
-                                                onPressed: () {
-                                                  navigatePage(
-                                                    context,
-                                                    const ProfileImageUpdatePage(),
-                                                  );
-                                                }),
-                                          ],
-                                  ),
-                                ),
-                                child: Hero(
-                                  tag: 'mainImage',
-                                  transitionOnUserGestures: true,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: AppCachedNetworkImage(
+                              Container(
+                                decoration: Utils.mainContainerBorder,
+                                child: GestureDetector(
+                                  onTap: () => navigatePage(
+                                    context,
+                                    ProfileImageView(
+                                      title: Text(localUserProfileItem[
+                                              "fullName"] ??
+                                          localUserProfileItem["userFullName"]),
                                       imageUrl: localUserProfileItem[
                                               'coverImage'] ??
                                           localUserProfileItem['userCoverUrl'],
-                                      height: 150,
+                                      actions: !isOwnProfile
+                                          ? []
+                                          : [
+                                              IconButton(
+                                                  icon: const Icon(Icons.edit),
+                                                  tooltip: 'Upload New Photos',
+                                                  onPressed: () {
+                                                    navigatePage(
+                                                      context,
+                                                      const ProfileImageUpdatePage(),
+                                                    );
+                                                  }),
+                                            ],
+                                    ),
+                                  ),
+                                  child: Hero(
+                                    tag: 'mainImage',
+                                    transitionOnUserGestures: true,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: AppCachedNetworkImage(
+                                        imageUrl: localUserProfileItem[
+                                                'coverImage'] ??
+                                            localUserProfileItem[
+                                                'userCoverUrl'],
+                                        height: 150,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -169,290 +171,379 @@ class _UsersListPageState extends State<UsersListPage>
                 return true;
               },
               child: LayoutBuilder(builder: (context, constraints) {
-                return GridView.builder(
-                  shrinkWrap: true,
-                  itemCount:
-                      (present <= totalCount) ? items.length + 1 : items.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.7,
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 0,
-                    crossAxisCount: constraints.maxWidth > 600
-                        ? (constraints.maxWidth ~/ 200)
-                        : 2,
-                  ),
-                  itemBuilder: (BuildContext context, index) {
-                    if (items.isEmpty && !isRequestProcessing) {
-                      return const Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.no_accounts,
-                                size: 125,
-                                color: app_theme.error,
+                return Container(
+                  margin: const EdgeInsets.all(8),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: (present <= totalCount)
+                        ? items.length + 1
+                        : items.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.7,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 20,
+                      crossAxisCount: constraints.maxWidth > 600
+                          ? (constraints.maxWidth ~/ 200)
+                          : 2,
+                    ),
+                    itemBuilder: (BuildContext context, index) {
+                      if (items.isEmpty && !isRequestProcessing) {
+                        return const Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.no_accounts,
+                                  size: 125,
+                                  color: app_theme.secondary,
+                                ),
+                                Text('no result found'),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else if ((index == items.length) &&
+                          (totalCount != 0) &&
+                          (items.length == totalCount) &&
+                          !isRequestProcessing) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .white, // Background color of the container
+                            borderRadius:
+                                BorderRadius.circular(20), // Rounded corners
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(
+                                    0.1), // Shadow color with opacity
+                                spreadRadius: 5, // Spread radius
+                                blurRadius: 10, // Blur radius for smooth shadow
+                                offset: Offset(
+                                    0, 3), // Offset to position the shadow
                               ),
-                              Text('no result found'),
                             ],
                           ),
-                        ),
-                      );
-                    } else if ((index == items.length) &&
-                        (totalCount != 0) &&
-                        (items.length == totalCount) &&
-                        !isRequestProcessing) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color:
-                              Colors.white, // Background color of the container
-                          borderRadius:
-                              BorderRadius.circular(20), // Rounded corners
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(
-                                  0.1), // Shadow color with opacity
-                              spreadRadius: 5, // Spread radius
-                              blurRadius: 10, // Blur radius for smooth shadow
-                              offset:
-                                  Offset(0, 3), // Offset to position the shadow
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [],
                             ),
-                          ],
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [],
                           ),
-                        ),
-                      );
-                    } else if ((index == items.length)) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color:
-                              Colors.white, // Background color of the container
-                          borderRadius:
-                              BorderRadius.circular(20), // Rounded corners
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(
-                                  0.1), // Shadow color with opacity
-                              spreadRadius: 5, // Spread radius
-                              blurRadius: 10, // Blur radius for smooth shadow
-                              offset:
-                                  Offset(0, 3), // Offset to position the shadow
+                        );
+                      } else if ((index == items.length)) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .white, // Background color of the container
+                            borderRadius:
+                                BorderRadius.circular(20), // Rounded corners
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(
+                                    0.1), // Shadow color with opacity
+                                spreadRadius: 5, // Spread radius
+                                blurRadius: 10, // Blur radius for smooth shadow
+                                offset: const Offset(
+                                    0, 3), // Offset to position the shadow
+                              ),
+                            ],
+                          ),
+                          // alignment: Alignment.center,
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: AppItemProgressIndicator(
+                              size: 20,
                             ),
-                          ],
-                        ),
-                        // alignment: Alignment.center,
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: AppItemProgressIndicator(
-                            size: 20,
                           ),
-                        ),
-                      );
-                    } else {
-                      Map<String, dynamic> userItem = items[index];
-                      if (userRequestType == 'blocked_users') {
-                        userItem['user_blocked'] = true;
-                      }
-                      return OpenContainer<bool>(
-                        transitionType: ContainerTransitionType.fade,
-                        openBuilder:
-                            (BuildContext _, VoidCallback openContainer) {
-                          return ProfileDetailsPage(
-                            userProfileItem: userItem,
-                          );
-                        },
-                        openColor: Theme.of(context).colorScheme.background,
-                        closedColor: Theme.of(context).colorScheme.background,
-                        closedShape: const RoundedRectangleBorder(),
-                        closedElevation: 0.0,
-                        closedBuilder:
-                            (BuildContext _, VoidCallback openContainer) {
-                          return Stack(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors
-                                      .white, // Background color of the container
-                                  borderRadius: BorderRadius.circular(
-                                      20), // Rounded corners
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(
-                                          0.1), // Shadow color with opacity
-                                      spreadRadius: 5, // Spread radius
-                                      blurRadius:
-                                          10, // Blur radius for smooth shadow
-                                      offset: Offset(0,
-                                          3), // Offset to position the shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(4)),
-                                      child: AppCachedNetworkImage(
+                        );
+                      } else {
+                        Map<String, dynamic> userItem = items[index];
+                        if (userRequestType == 'blocked_users') {
+                          userItem['user_blocked'] = true;
+                        }
+                        return OpenContainer<bool>(
+                          transitionType: ContainerTransitionType.fade,
+                          openBuilder:
+                              (BuildContext _, VoidCallback openContainer) {
+                            return ProfileDetailsPage(
+                              userProfileItem: userItem,
+                            );
+                          },
+                          openColor: Theme.of(context).colorScheme.background,
+                          closedColor: Theme.of(context).colorScheme.background,
+                          closedShape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          closedElevation: 0.0,
+                          closedBuilder:
+                              (BuildContext _, VoidCallback openContainer) {
+                            return Stack(
+                              children: [
+                                Container(
+                                  decoration: Utils.mainContainerBorder,
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        child: AppCachedNetworkImage(
                                           imageUrl: userItem['profileImage'] ??
-                                              userItem['userImageUrl']),
-                                    ),
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: <Color>[
-                                            Color.fromRGBO(0, 0, 0, 0),
-                                            Color.fromRGBO(0, 0, 0, 20),
-                                          ],
+                                              userItem['userImageUrl'],
                                         ),
                                       ),
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          (userItem['fullName'] ??
-                                                  userItem['userFullName']) ??
-                                              '',
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.clip,
-                                          softWrap: true,
-                                          style: const TextStyle(
-                                              color: app_theme.primary,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              if (userItem['detailString'] !=
-                                                  null)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: Text(
-                                                    userItem['detailString']
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                              if (userItem['countryName'] !=
-                                                  null)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: Text(
-                                                    userItem['countryName'] ??
-                                                        '',
-                                                    textAlign: TextAlign.center,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                              if (userItem['countryName'] ==
-                                                  null)
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  height: 50,
-                                                  child: null,
-                                                ),
-                                              if (userItem['created_at'] !=
-                                                  null)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    userItem['created_at'] ??
-                                                        '',
-                                                    style: const TextStyle(
-                                                        fontSize: 11),
-                                                  ),
-                                                ),
-                                              if (userRequestType ==
-                                                  'blocked_users')
-                                                ElevatedButton(
-                                                  child: const Text(
-                                                    'Unblock',
-                                                  ),
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      items.removeWhere((item) {
-                                                        return item[
-                                                                'userUId'] ==
-                                                            userItem['userUId'];
-                                                      });
-                                                      totalCount =
-                                                          totalCount - 1;
-                                                    });
-                                                    data_transport.post(
-                                                      '${userItem['userUId']}/unblock-user-data',
-                                                      context: context,
-                                                      onSuccess:
-                                                          (responseData) {},
-                                                    );
-                                                  },
-                                                )
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: <Color>[
+                                              Color.fromRGBO(0, 0, 0, 0),
+                                              app_theme.primary2,
                                             ],
                                           ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (userItem['isPremiumUser'])
-                                const Positioned(
-                                  top: 10,
-                                  left: 10,
-                                  child: PremiumBadgeWidget(size: 32),
-                                ),
-                              Positioned(
-                                top: 20,
-                                right: 30,
-                                child: Container(
-                                  width: 14,
-                                  height: 14,
-                                  // ignore: prefer_const_constructors
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(
-                                            0.1), // Shadow color with opacity
-                                        spreadRadius: 5, // Spread radius
-                                        blurRadius:
-                                            10, // Blur radius for smooth shadow
-                                        offset: Offset(0,
-                                            3), // Offset to position the shadow
+                                      ),
+                                      Positioned(
+                                        top: -1,
+                                        left: 16,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            return SizedBox(
+                                              width: 140,
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  23),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  23)),
+                                                  color: app_theme.primary,
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 5),
+                                                child: Text(
+                                                  (userItem['fullName'] ??
+                                                          userItem[
+                                                              'userFullName']) ??
+                                                      '',
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  softWrap: true,
+                                                  maxLines:
+                                                      constraints.maxWidth > 80
+                                                          ? 2
+                                                          : 1,
+                                                  style: const TextStyle(
+                                                    color: app_theme.white,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                if (userItem['detailString'] !=
+                                                    null)
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4.0),
+                                                        child: Text(
+                                                          userItem[
+                                                                  'detailString']
+                                                              .toString(),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 10,
+                                                        height: 10,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.1),
+                                                              spreadRadius: 5,
+                                                              blurRadius: 10,
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 3),
+                                                            ),
+                                                          ],
+                                                          color: ((userItem[
+                                                                      'userOnlineStatus'] ==
+                                                                  1)
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  31,
+                                                                  95,
+                                                                  33)
+                                                              : (userItem['userOnlineStatus'] ==
+                                                                      2
+                                                                  ? Colors
+                                                                      .orange
+                                                                  : const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      216,
+                                                                      24,
+                                                                      11))),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                if (userItem['countryName'] !=
+                                                    null)
+                                                  Container(
+                                                    margin: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 25,
+                                                        vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  20)),
+                                                      color: Colors.white
+                                                          .withOpacity(
+                                                              0.1), // Transparent white color
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  20)),
+                                                      child: BackdropFilter(
+                                                        filter: ImageFilter.blur(
+                                                            sigmaX: 10,
+                                                            sigmaY:
+                                                                10), // Blur effect
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(4.0),
+                                                          child: Text(
+                                                            userItem[
+                                                                    'countryName'] ??
+                                                                '',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white), // Optional: Change text color for better visibility
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if (userItem['countryName'] ==
+                                                    null)
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            4.0),
+                                                    height: 50,
+                                                    child: null,
+                                                  ),
+                                                if (userItem['created_at'] !=
+                                                    null)
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      userItem['created_at'] ??
+                                                          '',
+                                                      style: const TextStyle(
+                                                          fontSize: 11),
+                                                    ),
+                                                  ),
+                                                if (userRequestType ==
+                                                    'blocked_users')
+                                                  ElevatedButton(
+                                                    child:
+                                                        const Text('Unblock'),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        items.removeWhere(
+                                                            (item) {
+                                                          return item[
+                                                                  'userUId'] ==
+                                                              userItem[
+                                                                  'userUId'];
+                                                        });
+                                                        totalCount =
+                                                            totalCount - 1;
+                                                      });
+                                                      data_transport.post(
+                                                        '${userItem['userUId']}/unblock-user-data',
+                                                        context: context,
+                                                        onSuccess:
+                                                            (responseData) {},
+                                                      );
+                                                    },
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                    color: ((userItem['userOnlineStatus'] == 1)
-                                        ? const Color.fromARGB(255, 31, 95, 33)
-                                        : (userItem['userOnlineStatus'] == 2
-                                            ? Colors.orange
-                                            : Color.fromARGB(
-                                                255, 216, 24, 11))),
-                                    shape: BoxShape.circle,
                                   ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  },
+                                if (userItem['isPremiumUser'])
+                                  const Positioned(
+                                    bottom: 50,
+                                    left: 10,
+                                    child: PremiumBadgeWidget(size: 32),
+                                  ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
                 );
               }),
             ),

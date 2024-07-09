@@ -16,6 +16,8 @@ import '../profile_details.dart';
 import '../user_common.dart';
 import 'package:fbroadcast/fbroadcast.dart';
 
+import '../../support/app_theme.dart' as app_theme;
+
 class MessengerChatListPage extends StatefulWidget {
   const MessengerChatListPage({Key? key, required this.sourceElement})
       : super(key: key);
@@ -59,7 +61,7 @@ class _MessengerChatListPageState extends State<MessengerChatListPage> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(210, 0, 0, 0),
+        backgroundColor: app_theme.primary2,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.background,
           elevation: 0,
@@ -467,7 +469,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                                       IconButton(
                                           icon: const Icon(
                                             Icons.face,
-                                            color: Colors.blueAccent,
+                                            color: app_theme.primary,
                                           ),
                                           onPressed: () {
                                             setState(() {
@@ -487,7 +489,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                                             isDense: true,
                                             hintText: "Type ...",
                                             hintStyle: TextStyle(
-                                              color: Colors.blueAccent,
+                                              color: app_theme.primary2,
                                             ),
                                             border: InputBorder.none,
                                           ),
@@ -504,7 +506,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                                           padding: const EdgeInsets.all(2),
                                           icon: const Icon(
                                             Icons.gif_box,
-                                            color: Colors.blueAccent,
+                                            color: app_theme.primary2,
                                           ),
                                           onPressed: () async {
                                             await GiphyGet.getGif(
@@ -522,8 +524,8 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                                                   .english, //Optional - Language for query.
                                               randomID:
                                                   "abcd", // Optional - An ID/proxy for a specific user.
-                                              tabColor: Colors
-                                                  .teal, // Optional- default accent color.
+                                              tabColor: app_theme
+                                                  .primary, // Optional- default accent color.
                                               debounceTimeInMilliseconds:
                                                   350, // Optional- time to pause between search keystrokes
                                             ).then((value) {
@@ -538,7 +540,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                                       IconButton(
                                         icon: const Icon(
                                           Icons.attach_file,
-                                          color: Colors.blueAccent,
+                                          color: app_theme.primary2,
                                         ),
                                         onPressed: () {
                                           pickAndUploadFile(context,
@@ -702,7 +704,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
           elevation: 1,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           color: !chatMessageItem['is_message_received']
-              ? const Color.fromARGB(255, 192, 120, 192)
+              ? app_theme.primary
               : null,
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Stack(
@@ -764,7 +766,6 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                     iconSize: 18,
                     icon: const Icon(
                       Icons.delete_forever,
-                      // color: Colors.blueAccent,
                     ),
                     onPressed: () {
                       setState(() {
@@ -898,7 +899,7 @@ class StickerSelectionWidget extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       icon: const Icon(
         Icons.image,
-        color: Colors.blueAccent,
+        color: app_theme.primary2,
       ),
       onPressed: () {
         showModalBottomSheet<void>(

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor:
-                                                    app_theme.secondary,
+                                                    app_theme.primary,
                                               ),
                                               onPressed: () {
                                                 navigatePage(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontSize: 26.0,
-                                                      color: app_theme.black),
+                                                      color: app_theme.white),
                                                 ),
                                               ),
                                             ),

@@ -210,7 +210,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           foregroundColor: app_theme.white,
-                          backgroundColor: app_theme.error,
+                          backgroundColor: app_theme.secondary,
                         ),
                         onPressed: () {
                           showActionableDialog(

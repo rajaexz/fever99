@@ -129,7 +129,7 @@ class _NotificationListPageState extends State<NotificationListPage>
                           'no result found',
                           textAlign: TextAlign.center,
                         ),
-                        textColor: app_theme.error,
+                        textColor: app_theme.secondary,
                       );
                     } else if ((index == items.length) &&
                         (totalCount != 0) &&
@@ -140,7 +140,7 @@ class _NotificationListPageState extends State<NotificationListPage>
                           'End of result',
                           textAlign: TextAlign.center,
                         ),
-                        textColor: app_theme.error,
+                        textColor: app_theme.secondary,
                       );
                     } else if ((index == items.length)) {
                       return const Align(

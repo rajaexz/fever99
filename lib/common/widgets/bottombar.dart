@@ -78,7 +78,7 @@ class _BottomBarState extends State<BottomBar> {
                     margin: const EdgeInsets.only(
                         top: 10, bottom: 10, left: 15, right: 15),
                     decoration: BoxDecoration(
-                      color: const Color(0xff27262B),
+                      color: app_theme.primary3,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
@@ -99,8 +99,8 @@ class _BottomBarState extends State<BottomBar> {
                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                 decoration: BoxDecoration(
                                   color: _selectedIndex == index
-                                      ? Color.fromARGB(255, 51, 123, 109)
-                                      : Colors.black,
+                                      ? app_theme.primary
+                                      : app_theme.primary3,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Column(
@@ -112,9 +112,8 @@ class _BottomBarState extends State<BottomBar> {
                                           : _bottomItemsIcons[index],
                                       width: 22,
                                       height: 22,
-                                      color: _selectedIndex == index
-                                          ? app_theme.primary
-                                          : app_theme.primary,
+                                      color:
+                                          app_theme.white,
                                     ),
                                   ],
                                 ),

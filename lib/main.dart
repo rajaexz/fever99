@@ -22,28 +22,19 @@ class MyApp extends StatelessWidget {
         title: 'Fever99',
         theme: ThemeData(
           fontFamily: 'Fuzzy_Bubbles',
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
           useMaterial3: true,
           brightness: Brightness.dark,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           canvasColor: const Color.fromARGB(240, 30, 30, 30),
-          primaryColor: Color(0xFF7FE09F),
+          primaryColor: const Color(0xFF74AC1D),
           colorScheme: ColorScheme.fromSwatch(
-            errorColor: app_theme.error,
+            errorColor: app_theme.secondary,
             brightness: Brightness.dark,
             primarySwatch: createMaterialColor(
               app_theme.primary,
             ),
           ).copyWith(
-            background: Color.fromARGB(255, 36, 109, 94),
+            background: app_theme.primary2,
           ),
         ),
         home: const HomePage(),

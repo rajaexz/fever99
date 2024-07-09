@@ -815,12 +815,23 @@ AppBar mainAppBarWidget(
   return AppBar(
       backgroundColor: Theme.of(context).colorScheme.background,
       toolbarOpacity: 0.6,
-      /*   leading: Builder(builder: (context) {
-              return IconButton(
-                icon: Icon(CupertinoIcons.list_dash),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+  leading: Builder(builder: (context) {
+              return SizedBox(
+                width: 40, // Adjust this value to change the size of the circle
+                height:
+                40,
+                child: InkWell(
+
+                  child: SvgPicture.asset(
+
+                    'assets/images/manu2.svg',
+                        color: app_theme.primary,
+                  ),
+
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                ),
               );
-            }), */
+            }),
       // backgroundColor: app_theme.topAndBottomBar,
       elevation: 0,
       title: title != null
@@ -853,11 +864,22 @@ AppBar mainAppBarWidget(
               },
             ),
             GestureDetector(
-              child: SvgPicture.asset(
-                "assets/images/wallet.svg",
-                height: 20,
-                width: 20,
-                color: app_theme.white,
+              child: Container(
+                width: 40, // Adjust this value to change the size of the circle
+                height:
+                    40, // Adjust this value to change the size of the circle
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: app_theme.primary, width: 2),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    "assets/images/wallet.svg",
+                    height: 20,
+                    width: 20,
+                    color: app_theme.white,
+                  ),
+                ),
               ),
               onTap: () {
                 navigatePage(context, const WalletTransactionListPage());
@@ -867,11 +889,21 @@ AppBar mainAppBarWidget(
               width: 10,
             ),
             InkWell(
-              child: SvgPicture.asset(
-                "assets/images/notificationicon.svg",
-                height: 20,
-                width: 20,
-                color: app_theme.white,
+              child: Container(
+                width: 40,  // Adjust this value to change the size of the circle
+                height: 40, // Adjust this value to change the size of the circle
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: app_theme.primary, width: 2),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    "assets/images/notificationicon.svg",
+                    height: 20,
+                    width: 20,
+                    color: app_theme.white,
+                  ),
+                ),
               ),
               onTap: () {
                 navigatePage(context, const NotificationListPage());

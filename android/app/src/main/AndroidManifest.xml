@@ -1,12 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.livelyworks.loveria_demo">
+    package="com.fever99.dating">
+    
     <!-- facebook login -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
     </queries>
    <application
-        android:label="Loveria"
+        android:label="fever99"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <!-- facebook login -->
