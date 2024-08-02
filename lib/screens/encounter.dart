@@ -2,8 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:photo_card_swiper/models/photo_card.dart';
 import 'package:photo_card_swiper/photo_card_swiper.dart';
+import 'package:swipe_cards/draggable_card.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 import '../common/services/data_transport.dart' as data_transport;
 import '../common/services/utils.dart';
 import '../common/widgets/common.dart';
@@ -25,15 +28,21 @@ class EncounterPageState extends State<EncounterPage> {
   bool isLoaded = false;
   bool encounterAvailability = false;
   List<PhotoCard> encounterCards = [];
+  List<SwipeItem> _swipeItems = [];
+  late MatchEngine _matchEngine;
+  bool _showLikeIcon = false;
+  bool _showDisLikeIcon = false;
   @override
   void initState() {
+    super.initState();
+    _matchEngine =
+        MatchEngine(swipeItems: _swipeItems); // Initialize with an empty list
     if (mounted) {
       getEncounterData();
     }
-    super.initState();
   }
 
-  /// get initial encounter data
+  /// Get initial encounter data
   getEncounterData() {
     data_transport.get(
       'encounter-data',
@@ -73,7 +82,7 @@ class EncounterPageState extends State<EncounterPage> {
                           encounteredUserData['detailString'] ?? '',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors
                                   .white), // Optional: Change text color for better visibility
                         )
@@ -110,7 +119,7 @@ class EncounterPageState extends State<EncounterPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     )
                   ],
@@ -120,17 +129,18 @@ class EncounterPageState extends State<EncounterPage> {
                   children: [
                     AppCachedNetworkImage(
                       height: double.infinity,
-                      imageUrl: encounteredUserData['userCoverUrl'],
+                      // imageUrl: encounteredUserData['userCoverUrl'],
+                      imageUrl: encounteredUserData['userImageUrl'],
                     ),
-                    Positioned(
-                      bottom: 10,
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundImage: appCachedNetworkImageProvider(
-                          imageUrl: encounteredUserData['userImageUrl'],
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom: 10,
+                    //   child: CircleAvatar(
+                    //     radius: 80,
+                    //     backgroundImage: appCachedNetworkImageProvider(
+                    //       imageUrl: encounteredUserData['userImageUrl'],
+                    //     ),
+                    //   ),
+                    // ),
                     if ((encounteredUserData['isPremiumUser'] != null) &&
                         encounteredUserData['isPremiumUser'])
                       const Positioned(
@@ -159,8 +169,100 @@ class EncounterPageState extends State<EncounterPage> {
                 isLocalImage: false,
               ),
             ];
+
+            _swipeItems = encounterCards.map((card) {
+              return SwipeItem(
+                content: card,
+                likeAction: () {
+                  rightButtonAction
+                  ();
+                  showLikeIcon();
+
+                },
+                nopeAction: () {
+                  leftButtonAction();
+                  showDisLikeIcon();
+
+
+                },
+                superlikeAction: () {
+                  cardSwiped(encounterCards.indexOf(card));
+                },
+                onSlideUpdate: (SlideRegion? region) async {
+                  print("Region $region");
+
+                  if(region == SlideRegion.inNopeRegion){
+
+                      showDisLikeIcon();
+
+                  }
+
+                  if( region ==  SlideRegion.inLikeRegion){
+                    showLikeIcon();
+
+                  }
+
+                },
+              );
+            }).toList();
+
+            _matchEngine = MatchEngine(
+                swipeItems:
+                    _swipeItems); // Update _matchEngine with new swipe items
           }
         });
+      },
+    );
+  }
+
+  void showLikeIcon() {
+    setState(() {
+      _showLikeIcon = true;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _showLikeIcon = false;
+      });
+    });
+  }
+
+  void showDisLikeIcon() {
+    setState(() {
+      _showDisLikeIcon = true;
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        _showDisLikeIcon = false;
+      });
+    });
+  }
+
+  void rightButtonAction() {
+    data_transport.post(
+      "encounters/${encounteredUserData['_uid']}/1/user-encounter-like-dislike",
+      context: context,
+      onSuccess: (responseData) {
+        getEncounterData();
+      },
+    );
+  }
+
+  void leftButtonAction() {
+    data_transport.post(
+      "encounters/${encounteredUserData['_uid']}/2/user-encounter-like-dislike",
+      context: context,
+      onSuccess: (responseData) {
+        getEncounterData();
+      },
+    );
+  }
+
+  void cardSwiped(int index) {
+    data_transport.post(
+      "encounters/${encounteredUserData['_uid']}/skip-encounter-user",
+      context: context,
+      onSuccess: (responseData) {
+        getEncounterData();
       },
     );
   }
@@ -174,64 +276,63 @@ class EncounterPageState extends State<EncounterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      body: !isLoaded
-          ? const Center(child: AppItemProgressIndicator())
-          : encounterAvailability == false
-              ? const BePremiumAlertInfo()
-              : (encounteredUserData.isNotEmpty
-                  ? PhotoCardSwiper(
-                      cardBgColor: app_theme.primary3,
-                      photos: encounterCards,
-                      showLoading: true,
-                      hideCenterButton: false,
-                      leftButtonIcon: CupertinoIcons.heart_slash_circle_fill,
-                      rightButtonIcon: CupertinoIcons.heart_circle_fill,
-                      centerButtonIcon: Icons.chevron_right,
-                      onCardTap: (params) {
-                        navigatePage(
-                            context,
-                            ProfileDetailsPage(
-                              userProfileItem: {
-                                'fullName': encounteredUserData['userFullName'],
-                                'profileImage':
-                                    encounteredUserData['userImageUrl'],
-                                'coverImage':
-                                    encounteredUserData['userCoverUrl'],
-                                'id': encounteredUserData['_id'],
-                                'username': encounteredUserData['username'],
-                              },
-                            ));
-                      },
-                      cardSwiped: (CardActionDirection direction, int index) {
-                        if (direction == CardActionDirection.cardCenterAction) {
-                          data_transport.post(
-                              "encounters/${encounteredUserData['_uid']}/skip-encounter-user",
-                              context: context, onSuccess: (responseData) {
-                            getEncounterData();
-                          });
-                        }
-                      },
-                      rightButtonAction: () {
-                        // encounteredUserData
-                        data_transport.post(
-                            "encounters/${encounteredUserData['_uid']}/1/user-encounter-like-dislike",
-                            context: context, onSuccess: (responseData) {
-                          getEncounterData();
-                        });
-                      },
-                      leftButtonAction: () {
-                        // encounteredUserData
-                        data_transport.post(
-                            "encounters/${encounteredUserData['_uid']}/2/user-encounter-like-dislike",
-                            context: context, onSuccess: (responseData) {
-                          getEncounterData();
-                        });
-                      },
-                    )
-                  : const Center(
-                      child: Text(
-                          'Your daily limit for encounters may exceed or there are no users to show.'),
-                    )),
+      body: Stack(
+        children: [
+          !isLoaded
+              ? const Center(child: AppItemProgressIndicator())
+              : encounterAvailability == false
+                  ? const BePremiumAlertInfo()
+                  : (encounteredUserData.isNotEmpty
+                      ? Container(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 100),
+                          child: SwipeCards(
+                            matchEngine: _matchEngine,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _swipeItems[index].content.itemWidget;
+                            },
+                            onStackFinished: () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("No more cards"),
+                                duration: Duration(milliseconds: 500),
+                              ));
+                            },
+                            itemChanged: (SwipeItem item, int index) {
+                              print("Item changed: ${item.content.cardId}");
+                            },
+                            upSwipeAllowed: false,
+                            fillSpace: false,
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                              style: TextStyle(fontSize: 20),
+                              textAlign: TextAlign.center,
+                              'Your daily limit for encounters may exceed or there are no users to show.'),
+                        )),
+          if (_showLikeIcon)
+
+            Lottie.asset('assets/images/like.json'),
+
+            // const Center(
+            //   child: Icon(
+            //     Icons.favorite,
+            //     color: Colors.red,
+            //     size: 100,
+            //   ),
+            // ),
+          if (_showDisLikeIcon)
+            Lottie.asset('assets/images/dislike.json'),
+            // const Center(
+            //   child: Icon(
+            //     Icons.thumb_down,
+            //     color: app_theme.primary,
+            //     size: 100,
+            //   ),
+            // ),
+        ],
+      ),
     );
   }
 }

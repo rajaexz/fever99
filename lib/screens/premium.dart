@@ -192,7 +192,7 @@ class PremiumPageState extends State<PremiumPage>
                               );
                             }),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: app_theme.secondary,
+                              backgroundColor: app_theme.primary,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

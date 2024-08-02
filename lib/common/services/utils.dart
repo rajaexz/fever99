@@ -20,7 +20,7 @@ class Utils {
   );
   static BoxDecoration mainContainerOnlyBorder = BoxDecoration(
     borderRadius: BorderRadius.circular(20),
-    border: Border.all(color: app_theme.primary, width: 5),
+ 
     boxShadow: [
       BoxShadow(
         color: Colors.black.withOpacity(0.1),
@@ -124,7 +124,7 @@ void showToastMessage(
     ),
     backgroundColor: type == 'success'
         ? app_theme.success
-        : ((type == 'error') ? app_theme.secondary : app_theme.black),
+        : ((type == 'error') ? app_theme.primary : app_theme.black),
   );
   // Find the ScaffoldMessenger in the widget tree
   // and use it to show a SnackBar.

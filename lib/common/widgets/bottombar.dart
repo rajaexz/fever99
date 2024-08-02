@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loveria/screens/users_list.dart';
 import '../../support/app_theme.dart' as app_theme;
@@ -20,7 +19,7 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int _selectedIndex = 2; // Local state to manage selected index
+  int? _selectedIndex; // Local state to manage selected index, initialized to null
 
   final List<Widget> _pages = [
     const UsersListPage(),
@@ -39,9 +38,10 @@ class _BottomBarState extends State<BottomBar> {
   ];
 
   final List<String> _bottomItemsIcons = [
-    "assets/images/Home.svg",
+  
     "assets/images/Heart.svg",
     "assets/images/Discovery.svg",
+      "assets/images/Home.svg",
     "assets/images/Chat.svg",
     "assets/images/Profile.svg",
   ];
@@ -68,67 +68,47 @@ class _BottomBarState extends State<BottomBar> {
           extendBody: true,
           backgroundColor: Colors.transparent,
           bottomNavigationBar: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            decoration: BoxDecoration(
+              color: app_theme.primary3,
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(_bottomItemsIcons.length, (index) {
+                bool isSelected = _selectedIndex == index;
+                return InkWell(
+                  onTap: () => _onItemTapped(index),
                   child: Container(
-                    height: 63,
-                    margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 15, right: 15),
+                    height: 45,
+                    width: constraints.maxWidth * 0.1833,
+                    margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
-                      color: app_theme.primary3,
-                      borderRadius: BorderRadius.circular(30),
+                      color: isSelected
+                          ? app_theme.primary
+                          : app_theme.primary3,
+                      shape: BoxShape.circle,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ListView.builder(
-                          clipBehavior: Clip.none,
-                          itemCount: _bottomItemsIcons.length,
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () => _onItemTapped(index),
-                              child: Container(
-                                height: 45,
-                                width: constraints.maxWidth * 0.1833,
-                                margin: const EdgeInsets.symmetric(vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: _selectedIndex == index
-                                      ? app_theme.primary
-                                      : app_theme.primary3,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      _selectedIndex == index
-                                          ? _bottomItemsIconsFill[index]
-                                          : _bottomItemsIcons[index],
-                                      width: 22,
-                                      height: 22,
-                                      color:
-                                          app_theme.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                    child: Center(
+                      child: SvgPicture.asset(
+                        isSelected
+                            ? _bottomItemsIconsFill[index]
+                            : _bottomItemsIcons[index],
+                        width: 22,
+                        height: 22,
+                        color: isSelected ? Colors.white : app_theme.primary,
+                        colorFilter: ColorFilter.mode(
+                          isSelected ? Colors.white : app_theme.primary,
+                          BlendMode.srcIn,
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                );
+              }),
             ),
           ),
-          body: _pages[_selectedIndex],
+          body: _selectedIndex != null ? _pages[_selectedIndex!] : UsersListPage(),
         );
       },
     );

@@ -453,7 +453,19 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                             alignment: Alignment.bottomLeft,
                             children: [
                               Container(
-                                decoration: Utils.mainContainerBorder,
+                                decoration:  BoxDecoration(
+    color: app_theme.primary,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(color: Colors.white, width: 0.3),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  ),
                                 child: GestureDetector(
                                   onTap: () => navigatePage(
                                     context,
@@ -462,8 +474,8 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                                               "fullName"] ??
                                           localUserProfileItem["userFullName"]),
                                       imageUrl: localUserProfileItem[
-                                              'coverImage'] ??
-                                          localUserProfileItem['userCoverUrl'],
+                                              'profileImage'] ??
+                                          localUserProfileItem['userImageUrl'],
                                       actions: !isOwnProfile
                                           ? []
                                           : [
@@ -486,57 +498,57 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                                       borderRadius: BorderRadius.circular(4),
                                       child: AppCachedNetworkImage(
                                         imageUrl: localUserProfileItem[
-                                                'coverImage'] ??
+                                                'profileImage'] ??
                                             localUserProfileItem[
-                                                'userCoverUrl'],
-                                        height: 150,
+                                                'userImageUrl'],
+                                        height: 300,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () => navigatePage(
-                                    context,
-                                    ProfileImageView(
-                                      title: Text(localUserProfileItem[
-                                              "fullName"] ??
-                                          localUserProfileItem["userFullName"]),
-                                      imageUrl: localUserProfileItem[
-                                              'profileImage'] ??
-                                          localUserProfileItem['userImageUrl'],
-                                      actions: !isOwnProfile
-                                          ? []
-                                          : [
-                                              IconButton(
-                                                  icon: const Icon(Icons.edit),
-                                                  tooltip: 'Upload New Photos',
-                                                  onPressed: () {
-                                                    navigatePage(
-                                                      context,
-                                                      const ProfileImageUpdatePage(),
-                                                    );
-                                                  }),
-                                            ],
-                                    ),
-                                  ),
-                                  child: CircleAvatar(
-                                    radius: 80,
-                                    // child: const Text('AH'),
-                                    backgroundImage:
-                                        appCachedNetworkImageProvider(
-                                      imageUrl: localUserProfileItem[
-                                              'profileImage'] ??
-                                          localUserProfileItem['userImageUrl'],
-                                      // width: double.infinity,
-                                      // height: 300,
-                                      // fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(8.0),
+                              //   child: GestureDetector(
+                              //     onTap: () => navigatePage(
+                              //       context,
+                              //       ProfileImageView(
+                              //         title: Text(localUserProfileItem[
+                              //                 "fullName"] ??
+                              //             localUserProfileItem["userFullName"]),
+                              //         imageUrl: localUserProfileItem[
+                              //                 'profileImage'] ??
+                              //             localUserProfileItem['userImageUrl'],
+                              //         actions: !isOwnProfile
+                              //             ? []
+                              //             : [
+                              //                 IconButton(
+                              //                     icon: const Icon(Icons.edit),
+                              //                     tooltip: 'Upload New Photos',
+                              //                     onPressed: () {
+                              //                       navigatePage(
+                              //                         context,
+                              //                         const ProfileImageUpdatePage(),
+                              //                       );
+                              //                     }),
+                              //               ],
+                              //       ),
+                              //     ),
+                              //     child: CircleAvatar(
+                              //       radius: 80,
+                              //       // child: const Text('AH'),
+                              //       backgroundImage:
+                              //           appCachedNetworkImageProvider(
+                              //         imageUrl: localUserProfileItem[
+                              //                 'profileImage'] ??
+                              //             localUserProfileItem['userImageUrl'],
+                              //         // width: double.infinity,
+                              //         // height: 300,
+                              //         // fit: BoxFit.cover,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               if ((localUserProfileItem['isPremiumUser'] !=
                                       null) &&
                                   localUserProfileItem['isPremiumUser'] == true)
@@ -569,306 +581,246 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                             ],
                           ),
                         ),
-                        Builder(
-                            // future: _fetchMyData,
-                            builder: (BuildContext context) {
-                          List<Widget> children = <Widget>[];
-                          if (data!.isNotEmpty) {
-                            if (!isOwnProfile) {
-                              if (!isLikeDislikeInitialized) {
-                                isLiked = getItemValue(
-                                            data, 'data.userLikeData.like') ==
-                                        1
-                                    ? true
-                                    : false;
-                                isDisliked = !isLiked;
-                                if (getItemValue(
-                                        data, 'data.userLikeData.like') ==
-                                    null) {
-                                  isDisliked = false;
-                                }
-                                isLikeDislikeInitialized = true;
-                              }
-                            }
+                    Builder(
+  builder: (BuildContext context) {
+    List<Widget> children = <Widget>[];
 
-                            children.addAll([
-                              if (isOwnProfile)
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: Icon(
-                                        color: Colors.red,
-                                        CupertinoIcons.heart_fill,
-                                        semanticLabel: 'Total Likes',
-                                      ),
-                                    ),
-                                    Text(
-                                      getItemValue(data, 'data.totalUserLike')
-                                          .toString(),
-                                    ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 25, right: 10),
-                                      child: Icon(
-                                        color: Colors.green,
-                                        Icons.visibility,
-                                        semanticLabel: 'Total Views',
-                                      ),
-                                    ),
-                                    Text(
-                                      getItemValue(data, 'data.totalVisitors')
-                                          .toString(),
-                                    ),
-                                  ],
-                                ),
-                              if (!isOwnProfile)
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    LikeButton(
-                                      isLiked: isLiked,
-                                      size: likeDislikeButtonSize,
-                                      onTap: (isThisLiked) async {
-                                        return onLikeDislike(
-                                            isThisLiked, userUId,
-                                            likeType: 1);
-                                      },
-                                      likeBuilder: (bool isThisLiked) {
-                                        return isLiked
-                                            ? Icon(
-                                                CupertinoIcons
-                                                    .heart_circle_fill,
-                                                color: app_theme.primary,
-                                                size: likeDislikeButtonSize,
-                                              )
-                                            : Icon(
-                                                CupertinoIcons
-                                                    .heart_circle_fill,
-                                                color: app_theme.white,
-                                                size: likeDislikeButtonSize,
-                                              );
-                                      },
-                                      // likeCount: 665,
-                                    ),
-                                    LikeButton(
-                                      isLiked: isDisliked,
-                                      size: likeDislikeButtonSize,
-                                      onTap: (isThisLiked) async {
-                                        return onLikeDislike(
-                                            isThisLiked, userUId,
-                                            likeType: 0);
-                                      },
-                                      likeBuilder: (bool isThisLiked) {
-                                        return isDisliked
-                                            ? Icon(
-                                                CupertinoIcons
-                                                    .heart_slash_circle_fill,
-                                                color: app_theme.primary,
-                                                size: likeDislikeButtonSize,
-                                              )
-                                            : Icon(
-                                                CupertinoIcons
-                                                    .heart_slash_circle_fill,
-                                                color: app_theme.white,
-                                                size: likeDislikeButtonSize,
-                                              );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "${userDetails['fullName']}",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 24,
-                                      ),
-                                    ),
-                                    Text(" (${userDetails['userAge']}) "),
-                                    if (getItemValue(
-                                            userProfileDetails, 'isVerified') ==
-                                        1)
-                                      const Icon(
-                                        Icons.verified,
-                                        color: Colors.greenAccent,
-                                      )
-                                  ],
-                                ),
-                              ),
-                              if ((userProfileDetails['city'] != null) ||
-                                  (userProfileDetails['country_name'] != ''))
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.location_pin,
-                                      size: 16,
-                                    ),
-                                    if (userProfileDetails['city'] != null)
-                                      Text(
-                                        " ${userProfileDetails['city']}",
-                                      ),
-                                    if (userProfileDetails['country_name'] !=
-                                        '')
-                                      const Text(', '),
-                                    if (userProfileDetails['country_name'] !=
-                                        '')
-                                      Text(
-                                          "${userProfileDetails['country_name']}")
-                                  ],
-                                ),
-                              const Divider(
-                                thickness: 0.1,
-                                height: 50,
-                              ),
-                              InfoItemWidget(
-                                label: 'About Me',
-                                value: userProfileDetails['aboutMe'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Gender',
-                                value: userProfileDetails['gender_text'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Preferred Language',
-                                value: userProfileDetails[
-                                    'formatted_preferred_language'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Relationship Status',
-                                value: userProfileDetails[
-                                    'formatted_relationship_status'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Work Status',
-                                value:
-                                    userProfileDetails['formatted_work_status'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Education',
-                                value:
-                                    userProfileDetails['formatted_education'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Birthday',
-                                value: userProfileDetails['birthday'],
-                              ),
-                              InfoItemWidget(
-                                label: 'Mobile Number',
-                                value: userProfileDetails['mobile_number'],
-                              ),
-                              if (userProfileDetails['city'] != null &&
-                                  ((userProfileDetails['city'] != null) &&
-                                      (userProfileDetails['country_name'] !=
-                                          'null')))
-                                InfoItemWidget(
-                                    label: 'Location',
-                                    value:
-                                        "${userProfileDetails['city']}, ${userProfileDetails['country_name']}"),
-                              if ((getItemValue(
-                                          userProfileDetails, 'latitude') !=
-                                      null) &&
-                                  getItemValue(
-                                          userProfileDetails, 'longitude') !=
-                                      null)
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    height: 300,
-                                    child: FlutterMap(
-                                      options: MapOptions(
-                                        center: LatLng(
-                                          (getItemValue(userProfileDetails,
-                                                  'latitude') as num)
-                                              .toDouble(),
-                                          (getItemValue(userProfileDetails,
-                                                  'longitude') as num)
-                                              .toDouble(),
-                                        ),
-                                        zoom: 13,
-                                      ),
-                                      /*   nonRotatedChildren: [
-                                  AttributionWidget.defaultWidget(
-                                    source: 'OpenStreetMap contributors',
-                                    onSourceTapped: null,
-                                  ),
-                                ], */
-                                      children: [
-                                        TileLayer(
-                                          urlTemplate:
-                                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                          // userAgentPackageName: 'com.example.app',
-                                        ),
-                                        MarkerLayer(markers: [
-                                          Marker(
-                                            // width: 80,
-                                            // height: 80,
-                                            point: LatLng(
-                                              (userProfileDetails['latitude']
-                                                      as num)
-                                                  .toDouble(),
-                                              (userProfileDetails['longitude']
-                                                      as num)
-                                                  .toDouble(),
-                                            ),
-                                            child: const Icon(
-                                              Icons.location_pin,
-                                              color: Colors.red,
-                                              size: 40,
-                                            ),
-                                          ),
-                                        ]),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                            ]);
+    if (data!.isNotEmpty) {
+      if (!isOwnProfile) {
+        if (!isLikeDislikeInitialized) {
+          isLiked = getItemValue(data, 'data.userLikeData.like') == 1;
+          isDisliked = !isLiked;
+          if (getItemValue(data, 'data.userLikeData.like') == null) {
+            isDisliked = false;
+          }
+          isLikeDislikeInitialized = true;
+        }
+      }
 
-                            if (userSpecificationData != null) {
-                              userSpecificationData?.forEach(
-                                  (specificationItemIndex, specificationItem) {
-                                List<InfoItemWidget> specificationValueOption =
-                                    [];
-                                List itemOptions = data?['data']
-                                        ['specifications']
-                                    [specificationItemIndex]['items'];
-                                for (var item in itemOptions) {
-                                  if (item['value'] == '') {
-                                    continue;
-                                  }
-                                  specificationValueOption.add(
-                                    InfoItemWidget(
-                                      label: item['label'],
-                                      value: item['value'],
-                                    ),
-                                  );
-                                }
-                                if (specificationValueOption.isNotEmpty) {
-                                  children.add(Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 30),
-                                      child: Text(
-                                        specificationItem['title'],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ));
-                                  children.addAll(specificationValueOption);
-                                }
-                              });
-                            }
-                            List<Widget> photosItems = [];
-                            if (photosData.isNotEmpty) {
+      children.addAll([
+        if (isOwnProfile)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Icon(
+                  CupertinoIcons.heart_fill,
+                  color: Colors.red,
+                  semanticLabel: 'Total Likes',
+                ),
+              ),
+              Text(
+                getItemValue(data, 'data.totalUserLike').toString(),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 25, right: 10),
+                child: Icon(
+                  Icons.visibility,
+                  color: Colors.green,
+                  semanticLabel: 'Total Views',
+                ),
+              ),
+              Text(
+                getItemValue(data, 'data.totalVisitors').toString(),
+              ),
+            ],
+          ),
+        if (!isOwnProfile)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LikeButton(
+                isLiked: isLiked,
+                size: likeDislikeButtonSize,
+                onTap: (isThisLiked) async {
+                  return onLikeDislike(isThisLiked, userUId, likeType: 1);
+                },
+                likeBuilder: (bool isThisLiked) {
+                  return Icon(
+                    CupertinoIcons.heart_circle_fill,
+                    color: isLiked ? app_theme.primary : app_theme.white,
+                    size: likeDislikeButtonSize,
+                  );
+                },
+              ),
+              const SizedBox(width: 10),
+              LikeButton(
+                isLiked: isDisliked,
+                size: likeDislikeButtonSize,
+                onTap: (isThisLiked) async {
+                  return onLikeDislike(isThisLiked, userUId, likeType: 0);
+                },
+                likeBuilder: (bool isThisLiked) {
+                  return Icon(
+                    CupertinoIcons.heart_slash_circle_fill,
+                    color: isDisliked ? app_theme.primary : app_theme.white,
+                    size: likeDislikeButtonSize,
+                  );
+                },
+              ),
+            ],
+          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${userDetails['fullName']}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                ),
+              ),
+              Text(" (${userDetails['userAge']}) "),
+              if (getItemValue(userProfileDetails, 'isVerified') == 1)
+                const Icon(
+                  Icons.verified,
+                  color: Colors.greenAccent,
+                ),
+            ],
+          ),
+        ),
+        if ((userProfileDetails['city'] != null) ||
+            (userProfileDetails['country_name'] != ''))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.location_pin,
+                size: 16,
+              ),
+              if (userProfileDetails['city'] != null)
+                Text(
+                  " ${userProfileDetails['city']}",
+                ),
+              if (userProfileDetails['country_name'] != '')
+                const Text(', '),
+              if (userProfileDetails['country_name'] != '')
+                Text("${userProfileDetails['country_name']}"),
+            ],
+          ),
+        const Divider(
+          thickness: 0.1,
+          height: 50,
+        ),
+        InfoItemWidget(
+          label: 'About Me',
+          value: userProfileDetails['aboutMe'],
+        ),
+        InfoItemWidget(
+          label: 'Gender',
+          value: userProfileDetails['gender_text'],
+        ),
+        InfoItemWidget(
+          label: 'Preferred Language',
+          value: userProfileDetails['formatted_preferred_language'],
+        ),
+        InfoItemWidget(
+          label: 'Relationship Status',
+          value: userProfileDetails['formatted_relationship_status'],
+        ),
+        InfoItemWidget(
+          label: 'Work Status',
+          value: userProfileDetails['formatted_work_status'],
+        ),
+        InfoItemWidget(
+          label: 'Education',
+          value: userProfileDetails['formatted_education'],
+        ),
+        InfoItemWidget(
+          label: 'Birthday',
+          value: userProfileDetails['birthday'],
+        ),
+        InfoItemWidget(
+          label: 'Mobile Number',
+          value: userProfileDetails['mobile_number'],
+        ),
+        if (userProfileDetails['city'] != null &&
+            ((userProfileDetails['city'] != null) &&
+                (userProfileDetails['country_name'] != 'null')))
+          InfoItemWidget(
+              label: 'Location',
+              value:
+                  "${userProfileDetails['city']}, ${userProfileDetails['country_name']}"),
+        if ((getItemValue(userProfileDetails, 'latitude') != null) &&
+            getItemValue(userProfileDetails, 'longitude') != null)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 300,
+              child: FlutterMap(
+                options: MapOptions(
+                  center: LatLng(
+                    (getItemValue(userProfileDetails, 'latitude') as num)
+                        .toDouble(),
+                    (getItemValue(userProfileDetails, 'longitude') as num)
+                        .toDouble(),
+                  ),
+                  zoom: 13,
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  ),
+                  MarkerLayer(markers: [
+                    Marker(
+                      point: LatLng(
+                        (userProfileDetails['latitude'] as num).toDouble(),
+                        (userProfileDetails['longitude'] as num).toDouble(),
+                      ),
+                      child: const Icon(
+                        Icons.location_pin,
+                        color: Colors.red,
+                        size: 40,
+                      ),
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+          ),
+      ]);
+
+      if (userSpecificationData != null) {
+        userSpecificationData?.forEach(
+            (specificationItemIndex, specificationItem) {
+          List<InfoItemWidget> specificationValueOption = [];
+          List itemOptions = data?['data']['specifications']
+              [specificationItemIndex]['items'];
+          for (var item in itemOptions) {
+            if (item['value'] == '') {
+              continue;
+            }
+            specificationValueOption.add(
+              InfoItemWidget(
+                label: item['label'],
+                value: item['value'],
+              ),
+            );
+          }
+          if (specificationValueOption.isNotEmpty) {
+            children.add(Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Text(
+                  specificationItem['title'],
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ));
+            children.addAll(specificationValueOption);
+          }
+        });
+      }
+      List<Widget> photosItems = [];
+      if (photosData.isNotEmpty) {
                               for (var element in photosData) {
                                 photosItems.add(OpenContainer<bool>(
                                   openColor:
@@ -926,119 +878,19 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                                 ),
                               ));
                             }
-
-                            List<Widget> giftItems = [];
-                            if (userGiftData.isNotEmpty) {
-                              for (var element in userGiftData) {
-                                giftItems.add(OpenContainer<bool>(
-                                  openColor:
-                                      Theme.of(context).colorScheme.background,
-                                  closedColor:
-                                      Theme.of(context).colorScheme.background,
-                                  transitionType: ContainerTransitionType.fade,
-                                  openBuilder: (BuildContext _,
-                                      Function? openContainer) {
-                                    return ProfileImageView(
-                                      imageUrl: element['userGiftImgUrl'],
-                                      title: Text(
-                                        'From ${element['fromUserName']}',
-                                      ),
-                                    );
-                                  },
-                                  closedShape: const RoundedRectangleBorder(),
-                                  closedElevation: 0.0,
-                                  closedBuilder: (BuildContext _,
-                                      Function? openContainer) {
-                                    return Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Stack(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: AppCachedNetworkImage(
-                                                imageUrl:
-                                                    element['userGiftImgUrl'],
-                                                fit: BoxFit.contain,
-                                                height: 180,
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Text(
-                                                'from \n ${element['fromUserName']}',
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            Icon(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              Icons.wallet_giftcard,
-                                            ),
-                                            if (element['isPrivate'])
-                                              const Positioned(
-                                                right: 0,
-                                                child: Icon(
-                                                  size: 16,
-                                                  // color: Theme.of(context)
-                                                  // .primaryColor,
-                                                  Icons.lock,
-                                                ),
-                                              )
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ));
-                              }
-
-                              if (giftItems.isNotEmpty) {
-                                children.add(
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 28),
-                                    child: Text(
-                                      'Gifts',
-                                      style: TextStyle(
-                                        fontSize: 28,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                              children.add(Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16, 0, 16, 16),
-                                child: GridView(
-                                    physics: const ScrollPhysics(),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount:
-                                          MediaQuery.of(context).size.width ~/
-                                              180,
-                                    ),
-                                    children: giftItems),
-                              ));
-                            }
-
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 50),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: children,
-                              ),
-                            );
-                          } else {
-                            return const Align(
-                              alignment: Alignment.center,
-                              child: AppItemProgressIndicator(),
-                            );
-                          }
-                        }),
-                      ],
+    }
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        ),
+      ),
+    );
+  },
+)
+     ],
                     ),
                   ),
                 ),

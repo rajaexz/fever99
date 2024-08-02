@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           canvasColor: const Color.fromARGB(240, 30, 30, 30),
           primaryColor: const Color(0xFF74AC1D),
           colorScheme: ColorScheme.fromSwatch(
-            errorColor: app_theme.secondary,
+            errorColor: app_theme.error,
             brightness: Brightness.dark,
             primarySwatch: createMaterialColor(
               app_theme.primary,

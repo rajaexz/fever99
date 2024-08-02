@@ -56,48 +56,45 @@ class InfoItemWidget extends StatelessWidget {
     return value == null
         ? Container()
         : Container(
-            decoration: Utils.mainContainerOnlyBorder,
-            margin: EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              // border: Border.all(color: Theme.of(context).dividerColor),
+              color: app_theme.primary2,
+              boxShadow: [    BoxShadow(
+        color: Colors.white.withOpacity(0.1),
+        spreadRadius: 5,
+        blurRadius: 10,
+        offset: const Offset(0, 3),
+      )],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                    child: Text(
-                      label ?? '',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColorLight,
-                        fontSize: 14,
-                      ),
+                if (label != null)
+                  Text(
+                    label!,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorLight,
+                      fontSize: 16,
+                      
                     ),
                   ),
-                ),
-                const Divider(
-                  thickness: 0.1,
-                  color: app_theme.primary,
-                  height: 28,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 20),
-                    child: Text(
-                      value ?? '',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
+                const SizedBox(height: 4),
+                // if (label != null) const Divider(height: 1),
+                const SizedBox(height: 8),
+                Text(
+                  value ?? '',
+                  style: const TextStyle(
+                    fontSize: 14,
                   ),
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 10))
               ],
             ),
           );
   }
 }
-
 class BePremiumAlertInfo extends StatelessWidget {
   const BePremiumAlertInfo({
     super.key,

@@ -53,6 +53,34 @@ class AppBackgroundImage extends StatelessWidget {
     );
   }
 }
+class AppBackgroundImage2 extends StatelessWidget {
+  var img ;
+   AppBackgroundImage2({ this.img,
+    Key? key,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration:  BoxDecoration(
+        gradient: app_theme.primaryGradient,
+        image: DecorationImage(
+          opacity: 0.4,
+          image: img,
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 3,
+          sigmaY: 3,
+        ),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
+        ),
+      ),
+    );
+  }
+}
 
 ///
 /// App Logo Widget
@@ -824,24 +852,23 @@ AppBar mainAppBarWidget(
 
                   child: SvgPicture.asset(
 
-                    'assets/images/manu2.svg',
+                    'assets/images/menu2.svg',
                         color: app_theme.primary,
                   ),
-
+                
                   onTap: () => Scaffold.of(context).openDrawer(),
                 ),
               );
             }),
       // backgroundColor: app_theme.topAndBottomBar,
       elevation: 0,
-      title: title != null
-          ? Text(title)
-          : Padding(
+      title: 
+          Padding(
               padding: const EdgeInsets.only(
-                bottom: 12,
+                bottom: 5,
               ),
               child: SizedBox(
-                height: 45,
+                height: 50,
                 width: 70,
                 child: app_theme.logoImage,
               ),

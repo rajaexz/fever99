@@ -741,6 +741,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      sha256: "893da7a0022ec2fcaa616f34529a081f617e86cc501105b856e5a3184c58c7c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.3"
   matcher:
     dependency: transitive
     description:
@@ -1147,6 +1155,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  swipe_cards:
+    dependency: "direct main"
+    description:
+      name: swipe_cards
+      sha256: c34f28e71e3d4041455aaff49ac4242a79cad0e7d0ec16978f871059f3d956e3
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0+1"
   synchronized:
     dependency: transitive
     description:

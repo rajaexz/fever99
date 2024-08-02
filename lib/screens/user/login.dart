@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:loveria/screens/user/register.dart';
 import 'package:progress_loading_button/progress_loading_button.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import '../../common/services/utils.dart';
@@ -39,12 +40,14 @@ class _LoginPageState extends State<LoginPage> {
     scopes: scopes,
   );
 
-  @override
+
+
+   @override
   Widget build(BuildContext context) {
     auth.redirectIfAuthenticated(context);
     return Scaffold(
         body: Stack(children: <Widget>[
-      // const AppBackgroundImage(),
+       AppBackgroundImage2(img: app_theme.backgroundImage2 ,),
       SingleChildScrollView(
         child: Padding(
           padding:
@@ -108,9 +111,10 @@ class _LoginPageState extends State<LoginPage> {
                                 formInputData['password'] = value;
                               },
                             ),
+                            SizedBox(height: 10,),
                             LoadingButton(
-                              height: 60,
-                              width: 100,
+                              height: 50,
+                              width: 200,
                               // loadingWidget: const AppItemProgressIndicator(),
                               defaultWidget: const Text(
                                 'Login',
@@ -150,6 +154,9 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text('Forgot Password?'),
                         ),
                       ),
+
+
+
                       Divider(
                         color: Theme.of(context).secondaryHeaderColor,
                         thickness: 0.2,
@@ -251,34 +258,74 @@ class _LoginPageState extends State<LoginPage> {
                             imageWidth: 20,
                           ),
                         ),
+
+                        
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 16.0),
+                      //   child: SizedBox(
+                      //     width: double.infinity,
+                      //     child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //         backgroundColor: app_theme.primary,
+                      //       ),
+                      //       onPressed: () {
+                      //         navigatePage(context, const HomePage());
+                      //       },
+                      //       child: const Padding(
+                      //           padding: EdgeInsets.only(
+                      //             left: 16.0,
+                      //             right: 16.0,
+                      //             top: 12,
+                      //             bottom: 12,
+                      //           ),
+                      //           child: Text("GO HOME",
+                      //               style: TextStyle(
+                      //                 color: app_theme.white,
+                      //                 fontWeight: FontWeight.w600,
+                      //                 fontSize: 16.0,
+                      //               ))),
+                      //     ),
+                      //   ),
+                      // ),
+          
+
+
                       Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: app_theme.secondary,
-                            ),
-                            onPressed: () {
-                              navigatePage(context, const HomePage());
-                            },
-                            child: const Padding(
-                                padding: EdgeInsets.only(
-                                  left: 16.0,
-                                  right: 16.0,
-                                  top: 12,
-                                  bottom: 12,
-                                ),
-                                child: Text("GO HOME",
-                                    style: TextStyle(
-                                      color: app_theme.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16.0,
-                                    ))),
-                          ),
-                        ),
-                      ),
-                    ],
+    padding: const EdgeInsets.only(top: 16.0),
+    child: SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    backgroundColor: app_theme.primary,
+    ),
+    onPressed: () {
+   Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+
+
+                                  RegisterPage(),
+                              ),
+                            );
+
+    },
+    child: const Padding(
+    padding: EdgeInsets.only(
+    left: 16.0,
+    right: 16.0,
+    top: 12,
+    bottom: 12,
+    ),
+    child: Text("GO Register Page",
+    style: TextStyle(
+    color: app_theme.white,
+    fontWeight: FontWeight.w600,
+    fontSize: 16.0,
+    ))),
+    ),
+    ),
+    ),
+              ],
                   ),
               ],
             ),

@@ -44,6 +44,7 @@ dependencies:
   form_validator: ^2.1.1
   convex_bottom_bar: ^3.1.0+1
   progress_loading_button: ^2.0.2
+  swipe_cards: ^2.0.0+1
   photo_card_swiper:
     git:
       url: https://github.com/livelyworks/photo_card_swiper
@@ -72,6 +73,7 @@ dependencies:
   social_login_buttons: ^1.0.7
   flutter_facebook_auth: ^6.0.1
   google_sign_in: ^6.1.4
+  lottie: ^1.4.1
   agora_rtc_engine: 6.2.1
   
 dependency_overrides:
@@ -117,6 +119,7 @@ flutter:
   - assets/images/bgs/bg.jpg
   - assets/images/bgs/bg1.jpg
   - assets/images/bgs/bg2.jpg
+  - assets/images/bgs/bg3.jpg
   - assets/audio/caller-ringtone.mp3
   - assets/audio/receiver-ringtone.mp3
 
@@ -134,8 +137,8 @@ flutter:
   fonts:
     - family: Fuzzy_Bubbles
       fonts:
-        - asset: assets/fonts/Fuzzy_Bubbles/Satoshi-Bold.otf
-        - asset: assets/fonts/Fuzzy_Bubbles/Satoshi-Regular.otf
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
           style: italic
   #   - family: Trajan Pro
   #     fonts:

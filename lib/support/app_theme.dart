@@ -11,19 +11,22 @@ final premiumBadge = SvgPicture.asset(
 const backgroundImage = AssetImage(
   "assets/images/bgs/bg2.jpg",
 );
+const backgroundImage2 = AssetImage(
+  "assets/images/bgs/bg3.jpg",
+);
 
 // colors
 const Color black = Color.fromARGB(255, 5, 5, 5);
 const Color white = Color.fromARGB(255, 255, 255, 255);
-const Color primary = Color(0xFF76Ab19);
-const Color primary2 = Color(0xFF0C3331);
-const Color primary3 = Color(0xFF12403e);
+const Color primary = Color(0xFF76AB19);
+const Color primary2 = Color(0xFF12403E);
+const Color primary3 = Color(0xFF0C3331 );
 const Color sidebarBgColor = Color.fromARGB(255, 253, 253, 253);
 const LinearGradient primaryGradient = LinearGradient(
   colors: [
-    white,
-    primary,
-    primary,
+    primary3,
+ primary3,
+    primary3,
   ],
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,

@@ -191,7 +191,7 @@ class _WalletTransactionListPageState extends State<WalletTransactionListPage>
                           'no result found',
                           textAlign: TextAlign.center,
                         ),
-                        textColor: app_theme.secondary,
+                        textColor: app_theme.primary,
                       );
                     } else if ((index == items.length) &&
                         (totalCount != 0) &&

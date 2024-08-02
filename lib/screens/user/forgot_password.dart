@@ -141,6 +141,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   ValidationBuilder().minLength(3).build(),
                             ),
                             LoadingButton(
+                              
                               defaultWidget: const Text(
                                 'Submit',
                               ),
@@ -177,7 +178,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
+                      
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: app_theme.primary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),

@@ -15,26 +15,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future? getRefreshAuthInfo;
   @override
   void initState() {
-    getRefreshAuthInfo = auth.fetchAuthInfo();
     super.initState();
+    _navigateBasedOnAuth();
   }
 
-  @override
-  dispose() {
-    super.dispose();
+  Future<void> _navigateBasedOnAuth() async {
+    await Future.delayed(const Duration(seconds: 3)); // Add 3-second delay
+    await auth.fetchAuthInfo();
+    if (auth.isLoggedIn()) {
+      navigatePage(context, const LandingPage());
+    } else {
+      navigatePage(context, const LoginPage());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Stack(
         children: <Widget>[
-          const AppBackgroundImage(),
+          AppBackgroundImage(),
           Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               top: 0,
               left: 32,
               right: 32,
@@ -43,12 +47,11 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                const AppLogo(
+                AppLogo(
                   height: 180,
                 ),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -75,142 +78,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                Flexible(
-                  child: SingleChildScrollView(
-                    child: FutureBuilder(
-                        future: getRefreshAuthInfo,
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData &&
-                              (snapshot.connectionState ==
-                                  ConnectionState.done)) {
-                            return Align(
-                              alignment: Alignment.center,
-                              child: auth.isLoggedIn()
-                                  ? Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 16.0,
-                                          ),
-                                          child: SizedBox(
-                                            width: 300,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    app_theme.primary,
-                                              ),
-                                              onPressed: () {
-                                                navigatePage(
-                                                  context,
-                                                  const LandingPage(),
-                                                );
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 16.0,
-                                                  right: 16.0,
-                                                  top: 12,
-                                                  bottom: 12,
-                                                ),
-                                                child: Text(
-                                                  "Let's Go",
-                                                  style: TextStyle(
-                                                      // color: app_theme.text,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 26.0,
-                                                      color: app_theme.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 16.0,
-                                          ),
-                                          child: SizedBox(
-                                            width: 300,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    app_theme.secondary,
-                                              ),
-                                              onPressed: () {
-                                                navigatePage(
-                                                  context,
-                                                  const LoginPage(),
-                                                );
-                                              },
-                                              child: const Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 16.0,
-                                                  right: 16.0,
-                                                  top: 12,
-                                                  bottom: 12,
-                                                ),
-                                                child: Text(
-                                                  "Login",
-                                                  style: TextStyle(
-                                                      // color: app_theme.text,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 26.0,
-                                                      color: app_theme.black),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 16.0),
-                                          child: SizedBox(
-                                              width: 300,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      app_theme.secondary,
-                                                ),
-                                                onPressed: () {
-                                                  navigatePage(
-                                                    context,
-                                                    RegisterPage(),
-                                                  );
-                                                },
-                                                child: const Padding(
-                                                  padding: EdgeInsets.only(
-                                                    left: 16.0,
-                                                    right: 16.0,
-                                                    top: 12,
-                                                    bottom: 12,
-                                                  ),
-                                                  child: Text(
-                                                    "Register",
-                                                    style: TextStyle(
-                                                        // color: app_theme.text,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 26.0,
-                                                        color: app_theme.black),
-                                                  ),
-                                                ),
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                            );
-                          }
-                          return const Align(
-                            alignment: Alignment.center,
-                            child: AppItemProgressIndicator(),
-                          );
-                        }),
-                  ),
+                Align(
+                  alignment: Alignment.center,
+                  child: AppItemProgressIndicator(),
                 ),
               ],
             ),

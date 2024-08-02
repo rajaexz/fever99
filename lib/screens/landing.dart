@@ -166,7 +166,7 @@ class _LandingPageState extends State<LandingPage> with WidgetsBindingObserver {
           tabTitle = 'My Profile';
           break;
         case 2:
-          tabTitle = '${auth.getAuthInfo('username').toString()}';
+          tabTitle = auth.getAuthInfo('username').toString();
           break;
         case 3:
           tabTitle = 'My Photos';
