@@ -259,13 +259,15 @@ class _UsersListPageState extends State<UsersListPage>
     return Stack(
       children: [
         Container(
+          width: 187,
+      height:    284,
           decoration: Utils.mainContainerBorder.copyWith(
-            borderRadius: BorderRadius.circular(25), // Smooth curve
+            borderRadius: BorderRadius.circular(24), // Smooth curve
           ),
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                borderRadius: const BorderRadius.all(Radius.circular(24)),
                 child: AppCachedNetworkImage(
                   imageUrl: userItem['profileImage'] ?? userItem['userImageUrl'],
                 ),
@@ -284,168 +286,187 @@ class _UsersListPageState extends State<UsersListPage>
                   borderRadius: BorderRadius.all(Radius.circular(25)), // Smooth curve
                 ),
               ),
+           
               Align(
                 alignment: Alignment.topCenter,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return SizedBox(
-                      width: 140,
+                      width: 115 ,
+                      height: 30,
                       child: Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
+                            bottomLeft: Radius.circular(14),
+                            bottomRight: Radius.circular(14),
                           ),
                           color: app_theme.primary,
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: Text(
-                          "0% Match",
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          maxLines: constraints.maxWidth > 80 ? 2 : 1,
-                          style: const TextStyle(
-                            color: app_theme.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        padding: const EdgeInsets.only(left: 10, right: 10, top: 3, ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "0% Match",
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              maxLines: constraints.maxWidth > 80 ? 2 : 1,
+                              style: const TextStyle(
+                                color: app_theme.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                      
+                          ],
                         ),
                       ),
                     );
                   },
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                                 Container(
-                          margin: const EdgeInsets.all(5),
-                       
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                            color: Colors.white.withOpacity(0.1),
-                            border: Border.all(
-                              color: Colors.grey.withOpacity(0.5),
-                              width: 2.0,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                                   Container(
+                            margin: const EdgeInsets.all(5),
+                 
+                 
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                              color: Colors.white.withOpacity(0.1),
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 2.0,
+                              ),
                             ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                child: Text(
-                                  "${userItem['distance']?.toString() ?? "0.0"} km away",
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  child: Text(
+                                    "${userItem['distance']?.toString() ?? "0.0"} km away",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-              
-                        if (userItem['detailString'] != null)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      userItem['fullName'].toString().split(" ")[0].toUpperCase(),
-                                      style: const TextStyle(
-                                        fontFamily: "Raboto",
-                                        fontSize: 18,
+                
+                          if (userItem['detailString'] != null)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    children: [
+                                           Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 5,
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                    color: ((userItem['userOnlineStatus'] == 1)
+                                        ? const Color.fromARGB(255, 31, 95, 33)
+                                        : (userItem['userOnlineStatus'] == 2
+                                            ? Colors.orange
+                                            : const Color.fromARGB(255, 216, 24, 11))),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                             SizedBox(width: 5,),
+                                      Text(
+                                        userItem['fullName'].toString().split(" ")[0].toUpperCase(),
+                                        style: const TextStyle(
+                                          fontFamily: "Raboto",
+                                          fontSize: 18,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
-                                        fontWeight: FontWeight.bold,
+                                        maxLines: 1,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      userItem['detailString'].toString().split(',')[0],
-                                      style: const TextStyle(
-                                        fontFamily: "Raboto",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                      SizedBox(width: 5),
+                                      Text(
+                                        userItem['detailString'].toString().split(',')[0],
+                                        style: const TextStyle(
+                                          fontFamily: "Raboto",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                  ],
+                                      SizedBox(width: 5,),
+                                              if (userItem['isPremiumUser'])
+        PremiumBadgeWidget(size: 17),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      spreadRadius: 5,
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ],
-                                  color: ((userItem['userOnlineStatus'] == 1)
-                                      ? const Color.fromARGB(255, 31, 95, 33)
-                                      : (userItem['userOnlineStatus'] == 2
-                                          ? Colors.orange
-                                          : const Color.fromARGB(255, 216, 24, 11))),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ],
-                          ),
-                         if (userItem['created_at'] != null)
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              userItem['created_at'] ?? '',
-                              style: const TextStyle(fontSize: 11),
+                               ],
                             ),
-                          ),
-                        if (userRequestType == 'blocked_users')
-                          ElevatedButton(
-                            child: const Text('Unblock'),
-                            onPressed: () {
-                              setState(() {
-                                items.removeWhere((item) {
-                                  return item['userUId'] == userItem['userUId'];
+                           if (userItem['created_at'] != null)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                userItem['created_at'] ?? '',
+                                style: const TextStyle(fontSize: 11),
+                              ),
+                            ),
+                          if (userRequestType == 'blocked_users')
+                            ElevatedButton(
+                              child: const Text('Unblock'),
+                              onPressed: () {
+                                setState(() {
+                                  items.removeWhere((item) {
+                                    return item['userUId'] == userItem['userUId'];
+                                  });
+                                  totalCount = totalCount - 1;
                                 });
-                                totalCount = totalCount - 1;
-                              });
-                              data_transport.post(
-                                '${userItem['userUId']}/unblock-user-data',
-                                context: context,
-                                onSuccess: (responseData) {},
-                              );
-                            },
-                          ),
-                        SizedBox(height: 10),
-                      ],
+                                data_transport.post(
+                                  '${userItem['userUId']}/unblock-user-data',
+                                  context: context,
+                                  onSuccess: (responseData) {},
+                                );
+                              },
+                            ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+    
+          
             ],
           ),
         ),
-        if (userItem['isPremiumUser'])
-          const Positioned(
-            top: 5,
-            left: 10,
-            child: PremiumBadgeWidget(size: 25),
-          ),
+        // if (userItem['isPremiumUser'])
+        
+        //   const Positioned(
+        //     top: 5,
+        //     right: 20,
+        //     child: PremiumBadgeWidget(size: 25),
+        //   ),
       ],
     );
   },
