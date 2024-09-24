@@ -210,7 +210,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       floatingActionButton: Visibility(
         visible: isOwnProfile,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 60),
+          margin: const EdgeInsets.only(bottom: 100),
           child: FloatingActionButton(
             mini: true,
             heroTag: 'myProfileUpdate',

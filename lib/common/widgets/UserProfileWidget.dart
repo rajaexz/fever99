@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loveria/common/services/utils.dart';
+import 'package:loveria/common/widgets/common.dart';
 import 'package:loveria/screens/user_common.dart';
 import 'dart:io';
 import '../../screens/profile_image_update.dart';
@@ -99,14 +100,11 @@ class UserProfileWidget extends StatelessWidget {
                         ),
                       ),
             isPremium
-                ? Positioned(
-                    top: -10,
-                    child: Image.asset(
-                      "assets/images/tajicon.png",
-                      height: 25,
-                      width: 25,
-                    ),
-                  )
+                ? const Positioned(
+                                    top: 5,
+                                    left: 10,
+                                    child: PremiumBadgeWidget(size: 22),
+                                  )
                 : const SizedBox(),
             matchRatio == null
                 ? const SizedBox()

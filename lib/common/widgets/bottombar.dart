@@ -23,8 +23,9 @@ class _BottomBarState extends State<BottomBar> {
 
   final List<Widget> _pages = [
     const UsersListPage(),
-    const EncounterPage(),
+    
     const MyPhotosPage(),
+    const EncounterPage(),
     const MessengerPage(),
     const ProfileDetailsPage(),
   ];
@@ -68,7 +69,7 @@ class _BottomBarState extends State<BottomBar> {
           extendBody: true,
           backgroundColor: Colors.transparent,
           bottomNavigationBar: Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             decoration: BoxDecoration(
               color: app_theme.primary3,
               borderRadius: BorderRadius.circular(30),
@@ -80,7 +81,7 @@ class _BottomBarState extends State<BottomBar> {
                 return InkWell(
                   onTap: () => _onItemTapped(index),
                   child: Container(
-                    height: 45,
+                    height: 64,
                     width: constraints.maxWidth * 0.1833,
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     decoration: BoxDecoration(
@@ -94,8 +95,8 @@ class _BottomBarState extends State<BottomBar> {
                         isSelected
                             ? _bottomItemsIconsFill[index]
                             : _bottomItemsIcons[index],
-                        width: 22,
-                        height: 22,
+                        width: 32,
+                        height: 32,
                         color: isSelected ? Colors.white : app_theme.primary,
                         colorFilter: ColorFilter.mode(
                           isSelected ? Colors.white : app_theme.primary,

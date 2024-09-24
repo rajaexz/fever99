@@ -23,6 +23,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            drawer: const AppDrawer(),
       appBar: mainAppBarWidget(
           context: context, title: 'Change Password', actionWidgets: []),
       body: Padding(

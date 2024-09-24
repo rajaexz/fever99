@@ -108,6 +108,7 @@ class _WalletTransactionListPageState extends State<WalletTransactionListPage>
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+            drawer: const AppDrawer(),
       appBar: mainAppBarWidget(
           context: context,
           title: 'My Credit Wallet',

@@ -25,6 +25,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            drawer: const AppDrawer(),
       appBar: mainAppBarWidget(
           context: context, title: 'Change Email', actionWidgets: []),
       body: Padding(

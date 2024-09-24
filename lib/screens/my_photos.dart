@@ -50,7 +50,7 @@ class _MyPhotosPageState extends State<MyPhotosPage> {
     return Scaffold(
       floatingActionButton:
         Container(
-        margin: const EdgeInsets.only(bottom: 60),
+        margin: const EdgeInsets.only(bottom: 100),
         child: FloatingActionButton(
             mini: true,
             heroTag: 'myPhotosUpdate',

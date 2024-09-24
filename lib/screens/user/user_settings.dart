@@ -42,6 +42,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            drawer: const AppDrawer(),
       appBar: mainAppBarWidget(
         context: context,
         title: 'Settings',
